@@ -1,0 +1,23 @@
+stanja: A(hello world), B, C, D;
+jezik: [abcdefghijkl];
+
+A: a -> B;
+A: b -> B;
+A: c -> B;
+A: d -> B;
+
+A: [abcd] -> A;
+A: (a, b, c, d) -> (A, B, C, D);
+
+A: {
+	a -> B;
+	b -> B;
+	d -> B;
+};
+
+\w
+\W
+\d
+\D
+\s
+\S

@@ -1,0 +1,12 @@
+# stanja: >A(hello world), *B, C, D;
+states: >A, *B, C, D;
+language: [abcdefghijkl];
+
+A: a -> B;
+A: b -> B;
+A: c -> B;
+A: d -> B;
+B: a -> A;
+B: b -> A;
+B: c -> A;
+B: d -> A;
