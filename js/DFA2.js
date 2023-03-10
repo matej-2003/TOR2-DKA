@@ -10,11 +10,12 @@ const INITIAL_STATE = 1;
 const FINAL_STATE   = 2;
 
 class DFAState {
-	constructor(name) {
-		this.name = name;
+	constructor(label) {
+		this.label = label;
 		this.connections = {};
 		this.id = Math.floor(Math.random() * 1000000);
 		this.status = 0;
+		this.color = null;
 	}
 
 	add_connection(char, state) {
@@ -26,7 +27,18 @@ class DFAState {
 	}
 
 	toString() {
-		return `State(${this.name}, ${Object.keys(this.connections).length})`;
+		return `State(${this.label}, ${Object.keys(this.connections).length})`;
+	}
+
+	set_status(status) {
+		this.status = status;
+		if (this.status == INITIAL_STATE) {
+			this.color = "#ffad8f";
+			this.shape = "box";
+		} else if (this.status == FINAL_STATE) {
+			this.color = "#fffc5c";
+			this.shape = "ellipse";
+		}
 	}
 }
 
@@ -114,11 +126,13 @@ class DFA {
 			const s = states_[i];
 
 			if (s[0] === ">") {
-				this.initial_state = new DFAState(s[1]);
-				this.initial_state.status = INITIAL_STATE;		// do not wonder what this is for its magic
+				let label = s.substring(1);
+				this.initial_state = new DFAState(label);
+				this.initial_state.set_status(INITIAL_STATE);		// do not wonder what this is for its magic
 			} else if (s[0] === "*") {
-				let final_state = new DFAState(s[1]);
-				final_state.status = FINAL_STATE;		// do not wonder what this is for its magic
+				let label = s.substring(1);
+				let final_state = new DFAState(label);
+				final_state.set_status(FINAL_STATE);		// do not wonder what this is for its magic
 				this.final_states.push(final_state);
 			} else {
 				this.states.push(new DFAState(s));
@@ -147,9 +161,9 @@ class DFA {
 		}
 	}
 
-	find_state(name) {
+	find_state(label) {
 		for (const state of this.states) {
-			if (state.name === name) {
+			if (state.label === label) {
 				return state;
 			}
 		}

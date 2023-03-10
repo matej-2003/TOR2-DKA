@@ -2,12 +2,22 @@
 <html lang="en">
 
 <head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Deterministic finite automaton</title>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-	<script type="text/javascript" src="./vis-network.min.js"></script>
-	<script src="./DFA2.js"></script>
+	<!-- CODE MIRRIR -->
+	<link rel="stylesheet" href="./js/codemirror.min.css" />
+	<script src="./js/codemirror.min.js"></script>
+	<script src="./js/javascript.min.js"></script>
+	<!-- JQUERY -->
+	<script src="./js/jquery.min.js"></script>
+	<!-- VIS js -->
+	<script type="text/javascript" src="./js/vis-network.min.js"></script>
 
+	<!-- MY SCRIPT -->
+	<script src="./js/DFA2.js"></script>
 	<style type="text/css">
 		#graph {
 			width: 600px;
@@ -15,12 +25,14 @@
 			border: 1px solid lightgray;
 		}
 
-		#code {
-			width: 600px;
-		}
-
 		#preview_img {
 			display: none;
+		}
+
+		.CodeMirror {
+			width: 600px;
+			height: 300px;
+			border: 1px solid #ccc;
 		}
 	</style>
 </head>
@@ -42,12 +54,9 @@ C: 0 -> C;
 C: 1 -> A;
 
 D: 1 -> D;
-D: 0 -> D;
-	</textarea>
+D: 0 -> D;</textarea>
 	<br>
 	<br>
-
-
 
 	<button id="show">SHOW</button>
 	<a id="download" download="graph">download</a>
@@ -55,86 +64,7 @@ D: 0 -> D;
 	<br>
 	<br>
 	<div id="graph"></div>
-
-	<script type="text/javascript">
-		let code_input = $("#code");
-		let show_btn = $("#show");
-		let download_btn = $("#download");
-		let graph = null;
-		let nodes = [];
-		let edges = [];
-		let nodes_set = new vis.DataSet(nodes);
-		let edges_set = new vis.DataSet(edges);
-		let options = {
-			edges: {
-				arrows: 'to',
-				color: '#0f0',
-				physics: false,
-				font: {
-					color: '#ff0000',
-					align: "top",
-				},
-				// shadow: true,
-				// smooth: true,
-			},
-			nodes: {
-				shape: "circle",
-			}
-		}
-		// create a network
-		let container = document.getElementById("graph");
-		let data = {
-			nodes: nodes_set,
-			edges: edges_set,
-		};
-		// here all options that have shorthand notations are shown.
-		let network = new vis.Network(container, data, options);
-
-		network.on("afterDrawing", function (ctx) {
-			let dataURL = ctx.canvas.toDataURL("image/png");
-			document.getElementById('download').href = dataURL;
-			// document.getElementById('preview_img').src = dataURL;
-		})
-
-		show_btn.click(() => {
-			graph = new DFA(code_input.val());
-			show_graph();
-		});
-
-
-		download_btn.click(() => {
-			// do not ask what the fuck is this because i do not know; i spent almost fucking hours trying to figure it out
-			let dataURL = network.view.canvas.frame.canvas.toDataURL("image/png");
-			document.getElementById('download').href = dataURL;
-		});
-
-
-		function show_graph() {
-			nodes = [];
-			for (let state of graph.states) {
-				let node = { id: state.id, label: state.name };
-				if (state.status == INITIAL_STATE) {
-					node.color = "#ffad8f";
-					node.shape = "box";
-				} else if (state.status == FINAL_STATE) {
-					node.color = "#fffc5c";
-					node.shape = "ellipse";
-				}
-				nodes.push(node);
-			}
-			edges = [];
-			for (let [state1, state2, label] of graph.connections) {
-				edges.push({ from: state1.id, to: state2.id, label: label });
-			}
-			nodes_set = new vis.DataSet(nodes);
-			edges_set = new vis.DataSet(edges);
-			data = {
-				nodes: nodes_set,
-				edges: edges_set,
-			};
-			network = new vis.Network(container, data, options);
-		}
-	</script>
+	<script src="./js/script.js"></script>
 </body>
 
 </html>

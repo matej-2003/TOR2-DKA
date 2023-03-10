@@ -1,0 +1,1 @@
+make me a simple parses for this language where # is a comment and everything left of : is a label and -> * > () {} [] : are special  characters and everything else is a string.
