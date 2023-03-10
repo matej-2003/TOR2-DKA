@@ -67,3 +67,25 @@ function show_graph() {
 	};
 	network = new vis.Network(container, data, options);
 }
+
+function downloadFile() {
+	let content = editor.getValue();
+	let blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+	let url = URL.createObjectURL(blob);
+	let link = document.createElement("a");
+	link.href = url;
+	link.download = "donwload.dfa";
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+}
+
+function uploadFile() {
+	let fileInput = document.getElementById("fileInput");
+	let file = fileInput.files[0];
+	let reader = new FileReader();
+	reader.onload = function () {
+		editor.setValue(reader.result);
+	};
+	reader.readAsText(file);
+}

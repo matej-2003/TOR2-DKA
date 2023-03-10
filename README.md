@@ -1,0 +1,1 @@
+most of this was written with chatgpt bacause i am lazy and docs of vis.js and codemirror are horrible.
